@@ -1,0 +1,59 @@
+sudo –s
+# Perform package update
+yum update –y
+
+# Install Java 1.8 ############################################
+yum install java-1.8.0-openjdk –y
+# By default amazon linux comes installed with Java 1.7. This will alow you to switch to java 1.8
+alternatives --config java
+
+## STOP COPY JUST ABOVE HERE!!! Select java 8 option ##
+
+
+# Install ElasticSearch #######################################
+
+cd /root
+# Download ElasticSearch rpm
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.rpm
+# Install the rpm
+yum install elasticsearch-5.6.3.rpm -y
+# Cleanup the download
+rm -f elasticsearch-5.6.3.rpm
+# Change the ElasticSearch bind IP address
+sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/g' /etc/elasticsearch/elasticsearch.yml
+# Add ElasticSearch autostart upon reboot
+chkconfig -add elasticserach
+# Start ElasticSearch
+service elasticserach start
+
+# Install Logstash ############################################
+
+cd /root
+# Download Logstash rpm
+wget https://artifacts.elastic.co/downloads/logstash/logstash-5.6.3.rpm
+# Install the rpm
+yum install logstash-5.6.3.rpm -y
+# Cleanup the download
+rm -f logstash-5.6.3.rpm
+# Add config to logstash to log /tmp/logstash.txt and send logs to ElasticSearch
+echo "input {file {path => "/tmp/logstash.txt"}}" >> /etc/logstash/conf.d/logstash.conf
+echo "output {elasticsearch {hosts => "localhost:9200"}}" >> /etc/logstash/conf.d/logstash.conf
+# Add Logstash autostart upon reboot
+echo "logstash" /etc/init/service.conf
+# Start Logstash
+initctl start logstash
+
+# Install Kibana #############################################
+cd /root/
+# Download Kibana rpm
+wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.3-x86_64.rpm
+# Install the rpm
+yum install kibana-5.6.3-x86_64.rpm –y
+# Cleanup the download
+rm –rf kibana-5.6.3-x86_64.rpm
+# Change the Kibana bind IP address
+sed -i "s/#server.host: \"localhost\"/server.host: \"0.0.0.0\"/g" /etc/kibana/kibana.yml
+# Add Kibana autostart upon reboot
+chkconfig --add kibana
+# Start Kibana
+service kibana start
