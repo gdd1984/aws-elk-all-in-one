@@ -13,4 +13,4 @@ You will need t2.medium EC2 instance with 20Gb prior to starting.
 <br>* PORT 9200   - ElasticSearch access
 <br>* PORT 5000   - Logstash access
 <br>
-<br>Once you have the above pre-requisites you can paste the command in the ec2 instaces command line.
+<br>Once you have the above pre-requisites you can paste the commands into the ec2 instaces command line from the install file.
