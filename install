@@ -1,9 +1,9 @@
-sudo –s
+sudo -s
 # Perform package update
-yum update –y
+yum update -y
 
 # Install Java 1.8 ############################################
-yum install java-1.8.0-openjdk –y
+yum install java-1.8.0-openjdk -y
 # By default amazon linux comes installed with Java 1.7. This will alow you to switch to java 1.8
 alternatives --config java
 
@@ -22,9 +22,9 @@ rm -f elasticsearch-5.6.3.rpm
 # Change the ElasticSearch bind IP address
 sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/g' /etc/elasticsearch/elasticsearch.yml
 # Add ElasticSearch autostart upon reboot
-chkconfig -add elasticserach
+chkconfig --add elasticsearch
 # Start ElasticSearch
-service elasticserach start
+service elasticsearch start
 
 # Install Logstash ############################################
 
@@ -48,7 +48,7 @@ cd /root/
 # Download Kibana rpm
 wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.3-x86_64.rpm
 # Install the rpm
-yum install kibana-5.6.3-x86_64.rpm –y
+yum install kibana-5.6.3-x86_64.rpm -y
 # Cleanup the download
 rm –rf kibana-5.6.3-x86_64.rpm
 # Change the Kibana bind IP address
